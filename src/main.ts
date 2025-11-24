@@ -24,7 +24,7 @@ import { delay } from "./utils/delay";
   await delay(1000);
   await page.type("#userName", "mainnnn");
   await page.type("#userEmail", "rahmat@mepo.travel");
-  await page.type("#currentAddress", "teebet");
+  await page.type("#currentAddress", "sasasafasfasda");
   await page.type("#permanentAddress", "sasasa City");
   await delay(1000);
   await page.click("#submit");
