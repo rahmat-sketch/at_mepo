@@ -1,0 +1,9 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "exec": "ts-node src/main.ts",
+  "events": {
+    "restart": "echo 🔁 File changed — restarting script...",
+    "crash": "echo 💥 Script crashed — waiting for file changes..."
+  }
+}
