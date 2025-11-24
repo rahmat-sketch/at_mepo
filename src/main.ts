@@ -22,7 +22,7 @@ import { delay } from "./utils/delay";
   await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
 
   await delay(1000);
-  await page.type("#userName", "devdev");
+  await page.type("#userName", "sarararara");
   await page.type("#userEmail", "sasa@mepo.travel");
   await page.type("#currentAddress", "asdgrwfs");
   await page.type("#permanentAddress", "dev City");
