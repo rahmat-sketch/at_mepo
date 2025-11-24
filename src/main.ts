@@ -23,7 +23,7 @@ import { delay } from "./utils/delay";
 
   await delay(1000);
   await page.type("#userName", "devdev");
-  await page.type("#userEmail", "rahmat@mepo.travel");
+  await page.type("#userEmail", "sasa@mepo.travel");
   await page.type("#currentAddress", "asdgrwfs");
   await page.type("#permanentAddress", "dev City");
   await delay(1000);
