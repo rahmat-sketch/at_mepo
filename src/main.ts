@@ -12,7 +12,12 @@ import { delay } from "./utils/delay";
     headless: false,
     defaultViewport: null,
     args: [
+<<<<<<< HEAD
       "--start-maximized",
+=======
+      "--start-maximized",          
+      "--disable-infobars",
+>>>>>>> aecb29d7f3c2cc40eab975153af85d0a49bfd915
       "--disable-gpu",
       "--no-sandbox",
       "--disable-setuid-sandbox"
