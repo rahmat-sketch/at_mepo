@@ -12,7 +12,9 @@ npm install
 
 
 # Dev
-npm run dev
+npm run dev main
+npm run dev main2
+npm run dev main3
 
 # Build
 npm run build
