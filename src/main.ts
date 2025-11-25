@@ -30,6 +30,15 @@ import { delay } from "./utils/delay";
 
   await delay(1000);
 
+
+  await page.type("#userName", "SARA");
+  await page.type("#userEmail", "rahmat@mepo.travel");
+  await page.type("#currentAddress", "dev");
+  await page.type("#permanentAddress", "dev City");
+  await delay(1000);
+  await page.click("#submit");
+
+
   try {
     await test2();
   } catch (error) {
