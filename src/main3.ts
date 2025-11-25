@@ -16,6 +16,7 @@ import { delay } from "./utils/delay";
     ],
   });
 
+  //testing untuk commit
   const page = await browser.newPage();
 
   console.log("Navigating to site...");
