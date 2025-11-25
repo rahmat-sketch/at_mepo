@@ -1,9 +1,13 @@
+// src/main.ts
 import puppeteer from "puppeteer";
+import { test1 } from "./modules/test";
+import { test2 } from "./modules/test2";
 import { delay } from "./utils/delay";
 
 (async () => {
   console.clear();
-  console.log("🚀 Script started at:", new Date().toLocaleTimeString());
+  console.log("🚀 MAIN SCRIPT STARTED AT:", new Date().toLocaleTimeString());
+  console.log("==========================================\n");
 
   const browser = await puppeteer.launch({
     headless: false,
@@ -18,17 +22,23 @@ import { delay } from "./utils/delay";
 
   const page = await browser.newPage();
 
-  console.log("Navigating to site...");
-  await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
+  try {
+    await test1();
+  } catch (error) {
+    console.error("\n❌ Error while running test1:", error);
+  }
 
-  await delay(200);
-  await page.type("#userName", "Rahmat");
-  await page.type("#userEmail", "sasa@mepo.travel");
-  await page.type("#currentAddress", "test");
-  await page.type("#permanentAddress", "dev City");
-  await delay(200);
-  await page.click("#submit");
+  await delay(1000);
 
-  console.log("✅ Form filled successfully");
-  // await browser.close();
+  try {
+    await test2();
+  } catch (error) {
+    console.error("\n❌ Error while running test2:", error);
+  }
+
+  console.log("\n🛑 Closing browser...");
+  await browser.close();
+
+  console.log("\n==========================================");
+  console.log("🎉 ALL TESTS FINISHED");
 })();
