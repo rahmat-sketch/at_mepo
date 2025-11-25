@@ -13,7 +13,7 @@ import { delay } from "./utils/delay";
     slowMo: 30,
     ignoreDefaultArgs: ["--enable-automation"],
     args: [
-      "--start-maximized",          // 👈 ini untuk fullscreen otomatis
+      "--start-maximized",          
       "--disable-infobars",
       "--disable-gpu",
       "--no-sandbox",
