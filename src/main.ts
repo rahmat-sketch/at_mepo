@@ -1,15 +1,23 @@
+// src/main.ts
 import puppeteer from "puppeteer";
+import { test1 } from "./modules/test";
 import { delay } from "./utils/delay";
 
 (async () => {
   console.clear();
-  console.log("🚀 Script started at:", new Date().toLocaleTimeString());
+  console.log("🚀 MAIN SCRIPT STARTED AT:", new Date().toLocaleTimeString());
+  console.log("==========================================\n");
 
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
     args: [
+<<<<<<< HEAD
       "--start-maximized",
+=======
+      "--start-maximized",          
+      "--disable-infobars",
+>>>>>>> aecb29d7f3c2cc40eab975153af85d0a49bfd915
       "--disable-gpu",
       "--no-sandbox",
       "--disable-setuid-sandbox"
@@ -18,10 +26,10 @@ import { delay } from "./utils/delay";
 
   const page = await browser.newPage();
 
-  console.log("Navigating to site...");
-  await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
+  
 
   await delay(1000);
+
   await page.type("#userName", "SARA");
   await page.type("#userEmail", "rahmat@mepo.travel");
   await page.type("#currentAddress", "dev");
@@ -29,6 +37,11 @@ import { delay } from "./utils/delay";
   await delay(1000);
   await page.click("#submit");
 
-  console.log("✅ Form filled successfully");
-  // await browser.close();
+
+ 
+  console.log("\n🛑 Closing browser...");
+  await browser.close();
+
+  console.log("\n==========================================");
+  console.log("🎉 ALL TESTS FINISHED");
 })();
