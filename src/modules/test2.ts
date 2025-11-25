@@ -1,27 +1,26 @@
-import puppeteer from "puppeteer";
-import { delay } from "../utils/delay";  // FIXED PATH
+import { Page } from "puppeteer";
+import { delay } from "../utils/delay";
 
-export const test2 = async () => {
-  console.log("🚀 Script started at:", new Date().toLocaleTimeString());
+export async function test2(page: Page) {
+  console.log("\n▶️ Running TEST 2...");
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: null,
-    args: [
-      "--start-maximized",
-      "--disable-gpu",
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ],
-  });
+  try {
+    await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
 
-  const page = await browser.newPage();
+    await delay(300);
 
-  console.log("Navigating to site...");
-  await page.goto("https://demoqa.com/checkbox", { waitUntil: "networkidle2" });
+    await page.type("#userName", "Automation Bot");
+    await page.type("#userEmail", "bot@test.com");
+    await page.type("#currentAddress", "Jl. Puppeteer Automation");
+    await page.type("#permanentAddress", "QA System");
 
-  await delay(200);
-  
+    await delay(300);
 
-  console.log("✅ Form filled successfully");
-};
+    await page.click("#submit");
+
+    console.log("🚀 Test 2 completed successfully!");
+
+  } catch (error) {
+    console.error("❌ ERROR in Test 2:", error);
+  }
+}

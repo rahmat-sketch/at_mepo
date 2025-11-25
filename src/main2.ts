@@ -1,34 +1,42 @@
+// src/main.ts
 import puppeteer from "puppeteer";
+import { test1 } from "./modules/test";
+import { test2 } from "./modules/test2";
 import { delay } from "./utils/delay";
-//test changes untuk commit
+
 (async () => {
   console.clear();
-  console.log("🚀 Script started at:", new Date().toLocaleTimeString());
+  console.log("🚀 MAIN SCRIPT STARTED\n");
 
   const browser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: null,
-    args: [
-      "--start-maximized",
-      "--disable-gpu",
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ],
-  });
+  headless: false,                 // jalankan dengan UI
+  defaultViewport: null,           // fullscreen default
+  slowMo: 30,                      // optional → kasih delay biar UI stabil (bisa 0)
+  ignoreDefaultArgs: ['--enable-automation'], // sembunyikan banner "Chrome controlled"
+  args: [
+    "--start-maximized",
+    "--disable-infobars",          // hilangkan text "Chrome is being controlled"
+    "--disable-gpu",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",     // fix crash di RAM rendah (Linux / Docker)
+    "--disable-blink-features=AutomationControlled", // anti detection
+    "--window-size=1920,1080"
+  ]
+});
 
   const page = await browser.newPage();
 
-  console.log("Navigating to site...");
-  await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
+  try {
+    await test1(page);
+    await delay(1000);
+    await test2(page);
+  } catch (err) {
+    console.error("❌ Test failed:", err);
+  }
 
-  await delay(200);
-  await page.type("#userName", "ubahmain2 lagi");
-  await page.type("#userEmail", "sasa@mepo.travel");
-  await page.type("#currentAddress", "asdgrwfs");
-  await page.type("#permanentAddress", "dev City");
-  await delay(200);
-  await page.click("#submit");
+  console.log("\n🛑 Closing browser...");
+  await browser.close();
 
-  console.log("✅ Form filled successfully");
-  // await browser.close();
+  console.log("\n🎉 ALL TESTS FINISHED");
 })();

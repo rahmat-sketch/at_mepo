@@ -1,4 +1,3 @@
-// src/main.ts
 import puppeteer from "puppeteer";
 import { test1 } from "./modules/test";
 import { test2 } from "./modules/test2";
@@ -6,39 +5,50 @@ import { delay } from "./utils/delay";
 
 (async () => {
   console.clear();
-  console.log("🚀 MAIN SCRIPT STARTED AT:", new Date().toLocaleTimeString());
-  console.log("==========================================\n");
+  console.log("🚀 MAIN SCRIPT STARTED\n");
 
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
+    slowMo: 30,
+    ignoreDefaultArgs: ["--enable-automation"],
     args: [
-      "--start-maximized",
+      "--start-maximized",          // 👈 ini untuk fullscreen otomatis
+      "--disable-infobars",
       "--disable-gpu",
       "--no-sandbox",
-      "--disable-setuid-sandbox"
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-blink-features=AutomationControlled",
     ],
   });
 
   const page = await browser.newPage();
 
+  console.log("📌 Running test suite...\n");
+
+  // -------- TEST 1 --------
   try {
-    await test1();
-  } catch (error) {
-    console.error("\n❌ Error while running test1:", error);
+    console.log("▶️ Starting Test 1...");
+    await test1(page);
+    console.log("✔️ Test 1 Completed\n");
+  } catch (err) {
+    console.error("❌ Test 1 Failed:", err);
   }
 
   await delay(1000);
 
+  // -------- TEST 2 --------
   try {
-    await test2();
-  } catch (error) {
-    console.error("\n❌ Error while running test2:", error);
+    console.log("▶️ Starting Test 2...");
+    await test2(page);
+    console.log("✔️ Test 2 Completed\n");
+  } catch (err) {
+    console.error("❌ Test 2 Failed:", err);
   }
 
   console.log("\n🛑 Closing browser...");
   await browser.close();
 
-  console.log("\n==========================================");
-  console.log("🎉 ALL TESTS FINISHED");
+  console.log("\n🎉 ALL TESTS FINISHED");
 })();
