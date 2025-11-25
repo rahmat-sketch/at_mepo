@@ -1,28 +1,43 @@
 // src/main.ts
-import { test1 } from "./modules/test"; // Import test script dari folder modules
-import { test2 } from "./modules/test2"; // Import test2 script dari folder modules
-import { delay } from "./utils/delay";  // FIXED PATH
-
+import puppeteer from "puppeteer";
+import { test1 } from "./modules/test";
+import { test2 } from "./modules/test2";
+import { delay } from "./utils/delay";
 
 (async () => {
   console.clear();
   console.log("🚀 MAIN SCRIPT STARTED AT:", new Date().toLocaleTimeString());
   console.log("==========================================\n");
 
+  const browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: null,
+    args: [
+      "--start-maximized",
+      "--disable-gpu",
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+  });
+
+  const page = await browser.newPage();
+
   try {
-    await test1(); // Jalankan test
+    await test1();
   } catch (error) {
-    console.error("\n❌ Error while running test:", error);
+    console.error("\n❌ Error while running test1:", error);
   }
 
-  await delay(1000); // Tambahkan delay antar test
+  await delay(1000);
 
   try {
-    await test2(); // Jalankan test2
+    await test2();
   } catch (error) {
     console.error("\n❌ Error while running test2:", error);
-    
   }
+
+  console.log("\n🛑 Closing browser...");
+  await browser.close();
 
   console.log("\n==========================================");
   console.log("🎉 ALL TESTS FINISHED");
