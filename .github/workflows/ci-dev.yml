@@ -23,17 +23,16 @@ jobs:
       - name: Detect changed files
         id: changed
         run: |
-          FILES=$(git diff --name-only HEAD~1 HEAD | grep "^src/main")
+          FILES=$(git diff --name-only HEAD^ HEAD 2>/dev/null | grep "^src/main" || true)
+
           echo "Detected changed:"
           echo "$FILES"
 
           if [ -z "$FILES" ]; then
-            echo "No matching files changed. Skipping."
             echo "run=false" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          # Kirim banyak file ke output
           echo "files=$(echo $FILES | tr '\n' ' ')" >> $GITHUB_OUTPUT
           echo "run=true" >> $GITHUB_OUTPUT
 
