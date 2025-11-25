@@ -1,8 +1,7 @@
 // src/main.ts
 import puppeteer from "puppeteer";
-import { test1 } from "./modules/test";
-import { test2 } from "./modules/test2";
 import { delay } from "./utils/delay";
+import { test4 } from "./modules/modules_hanif/test4";
 
 (async () => {
   console.clear();
@@ -21,16 +20,14 @@ import { delay } from "./utils/delay";
     "--disable-setuid-sandbox",
     "--disable-dev-shm-usage",     // fix crash di RAM rendah (Linux / Docker)
     "--disable-blink-features=AutomationControlled", // anti detection
-    "--window-size=1920,1080"
   ]
 });
 
   const page = await browser.newPage();
 
   try {
-    await test1(page);
     await delay(1000);
-    await test2(page);
+    await test4(page);
   } catch (err) {
     console.error("❌ Test failed:", err);
   }

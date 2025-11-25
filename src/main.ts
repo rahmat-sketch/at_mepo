@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import { test1 } from "./modules/test";
-import { test2 } from "./modules/test2";
+import { test2 } from "./modules/modules_silfi/test2";
 import { delay } from "./utils/delay";
 
 (async () => {

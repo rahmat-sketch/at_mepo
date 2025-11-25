@@ -1,5 +1,5 @@
 import { Page } from "puppeteer";
-import { delay } from "../utils/delay";
+import { delay } from "../../utils/delay";
 
 export async function test2(page: Page) {
   console.log("\n▶️ Running TEST 2...");
