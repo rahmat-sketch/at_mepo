@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "Automation project using Puppeteer + TypeScript",
   "main": "dist/main.ts",
-"scripts": {
-  "dev": "ts-node src/main.ts",
-  "build": "tsc",
-  "prod": "npm run build && node dist/main.ts",
-  "start": "npm run dev",
-  "test": "echo \"No tests yet\" && exit 0"
-},
+  "scripts": {
+    "dev": "ts-node src/run.ts",
+    "build": "tsc",
+    "prod": "npm run build && node dist/run.js",
+    "start": "npm run dev"
+  }
+,
   "keywords": ["puppeteer", "typescript", "automation", "testing"],
   "author": "Rahmat",
   "license": "ISC",
