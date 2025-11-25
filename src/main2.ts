@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import { delay } from "./utils/delay";
-
+//test changes untuk commit
 (async () => {
   console.clear();
   console.log("🚀 Script started at:", new Date().toLocaleTimeString());
