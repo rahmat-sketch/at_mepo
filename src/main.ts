@@ -1,34 +1,29 @@
-import puppeteer from "puppeteer";
-import { delay } from "./utils/delay";
+// src/main.ts
+import { test1 } from "./modules/test"; // Import test script dari folder modules
+import { test2 } from "./modules/test2"; // Import test2 script dari folder modules
+import { delay } from "./utils/delay";  // FIXED PATH
+
 
 (async () => {
   console.clear();
-  console.log("🚀 Script started at:", new Date().toLocaleTimeString());
+  console.log("🚀 MAIN SCRIPT STARTED AT:", new Date().toLocaleTimeString());
+  console.log("==========================================\n");
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: null,
-    args: [
-      "--start-maximized",
-      "--disable-gpu",
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ],
-  });
+  try {
+    await test1(); // Jalankan test
+  } catch (error) {
+    console.error("\n❌ Error while running test:", error);
+  }
 
-  const page = await browser.newPage();
+  await delay(1000); // Tambahkan delay antar test
 
-  console.log("Navigating to site...");
-  await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
+  try {
+    await test2(); // Jalankan test2
+  } catch (error) {
+    console.error("\n❌ Error while running test2:", error);
+    
+  }
 
-  await delay(200);
-  await page.type("#userName", "Rahmat s");
-  await page.type("#userEmail", "sasa@mepo.travel");
-  await page.type("#currentAddress", "test");
-  await page.type("#permanentAddress", "dev City");
-  await delay(200);
-  await page.click("#submit");
-
-  console.log("✅ Form filled successfully");
-  // await browser.close();
+  console.log("\n==========================================");
+  console.log("🎉 ALL TESTS FINISHED");
 })();
