@@ -19,15 +19,9 @@ import { delay } from "./utils/delay";
   const page = await browser.newPage();
 
   console.log("Navigating to site...");
-  await page.goto("https://demoqa.com/text-box", { waitUntil: "networkidle2" });
+  await page.goto("https://dev-webapp.mepo.travel/auth/login/", { waitUntil: "networkidle2" });
 
-  await delay(1000);
-  await page.type("#userName", "SARA");
-  await page.type("#userEmail", "rahmat@mepo.travel");
-  await page.type("#currentAddress", "dev");
-  await page.type("#permanentAddress", "dev City");
-  await delay(1000);
-  await page.click("#submit");
+
 
   console.log("✅ Form filled successfully");
   // await browser.close();
