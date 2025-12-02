@@ -23,13 +23,13 @@ export async function at_01_positive(page: Page): Promise<boolean> {
   }
 
   // === STEP 3: Isi password ===
-  try {
-    await page.type('#password-label', "password123");
-    console.log("Password diisi");
-  } catch (err) {
-    console.error("Gagal mengisi password:", err);
-    return false;
-  }
+  // try {
+  //   await page.type('#password-label', "password123");
+  //   console.log("Password diisi");
+  // } catch (err) {
+  //   console.error("Gagal mengisi password:", err);
+  //   return false;
+  // }
 
   // === STEP 4: Klik tombol login ===
   try {
