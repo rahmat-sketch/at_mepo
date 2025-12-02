@@ -21,7 +21,7 @@ import { at_01_positive } from "./pages/login/at-01-positive";
   const page = await browser.newPage();
 
   // === JALANKAN TEST LOGIN ===
-  console.log("▶️ Menjalankan test case: at_01_positive");
+  console.log("Menjalankan test case: at_01_positive");
   const result = await at_01_positive(page);
 
 
