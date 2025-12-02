@@ -1,0 +1,2 @@
+Cara Melakukan Running
+npm run dev
