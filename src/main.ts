@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { at_01_positive } from "./pages/login/at-01-positive";
+import { at_01_positive } from "./pages/login/at_01_positive";
 
 (async () => {
   console.clear();
