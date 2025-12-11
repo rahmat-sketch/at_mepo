@@ -1,80 +1,92 @@
-// import { Page } from "puppeteer";
-// import { delay } from "../../utils/delay";
+import { Page } from "puppeteer";
+import { delay } from "../../utils/delay";
 
-// export async function at_02_negative(page: Page): Promise<boolean> {
-//   console.log("🚫 [NEGATIVE] Navigating to Login Page...");
+export async function at_02_negative(page: Page): Promise<boolean> {
+  console.log("Navigating to Login Page...");
 
-//   // === STEP 1: Buka halaman login ===
-//   try {
-//     await page.goto("https://dev-webapp.mepo.travel/auth/login/", { waitUntil: "networkidle2" });
-//     console.log("🌐 Halaman login berhasil dibuka");
-//   } catch (err) {
-//     console.error("❌ Gagal membuka halaman login:", err);
-//     return false;
-//   }
+  // To URL
+  try {
+    await page.goto("https://dev-webapp.mepo.travel/auth/login/", { waitUntil: "networkidle2" });
+    console.log("Halaman login berhasil dibuka");
+  } catch (err) {
+    console.error("Gagal membuka halaman login:", err);
+    return false;
+  }
 
-//   // === STEP 2: Isi email salah ===
-//   try {
-//     await page.type('input[name="email"]', "invalid_user@example.com");
-//     console.log("✏️ Email salah diisi");
-//   } catch (err) {
-//     console.error("❌ Gagal mengisi email:", err);
-//     return false;
-//   }
+  // Type Email
+  try {
+    await page.type('#username-label', "d5@yopmail.com");
+    console.log("Email diisi");
+  } catch (err) {
+    console.error("Gagal mengisi email:", err);
+    return false;
+  }
 
-//   // === STEP 3: Isi password salah ===
-//   try {
-//     await page.type('input[name="password"]', "wrongpassword");
-//     console.log("🔑 Password salah diisi");
-//   } catch (err) {
-//     console.error("❌ Gagal mengisi password:", err);
-//     return false;
-//   }
+  // Type Password
+  try {
+    await page.type('#password-label', "Dev1234567");
+    console.log("Password diisi");
+  } catch (err) {
+    console.error("Gagal mengisi password:", err);
+    return false;
+  }
 
-//   // === STEP 4: Klik tombol login ===
-//   try {
-//     await delay(1000);
-//     await page.click('button[type="submit"]');
-//     console.log("👆 Tombol login diklik");
-//   } catch (err) {
-//     console.error("❌ Gagal mengklik tombol login:", err);
-//     return false;
-//   }
+  // Click Button Login
+  try {
+    await delay(1000);
+    await page.click(`button[type='submit']`);
+    console.log("Tombol login diklik");
+  } catch (err) {
+    console.error("Gagal mengklik tombol login:", err);
+    return false;
+  }
 
-//   // === STEP 5: Verifikasi hasil login gagal ===
-//   try {
-//     await delay(3000);
 
-//     // Coba cari pesan error login
-//     const errorMessage =
-//       (await page.$("p:text('Invalid')")) || // contoh umum
-//       (await page.$("p:text('incorrect')")) || // alternatif teks
-//       (await page.$(".text-red-500")); // ganti sesuai HTML asli kamu
 
-//     if (errorMessage) {
-//       console.log("✅ Negative case berhasil — sistem menampilkan pesan error login.");
-//       return true; // berhasil karena sistem menolak login (expected)
-//     }
+await delay(3000);
 
-//     // Kalau tidak ada pesan error, tapi tetap di halaman login
-//     const stillOnLogin = await page.$('input[name="email"]');
-//     if (stillOnLogin) {
-//       console.warn("⚠️ Login gagal tapi tidak muncul pesan error (kemungkinan bug UI)");
-//       return true; // tetap dianggap berhasil sebagai negative case
-//     }
+// Verifikasi Login (versi final, hanya ambil teks error)
+try {
+  console.log("Menunggu notifikasi error muncul...");
 
-//     // Kalau malah masuk dashboard, berarti bug
-//     const dashboard = await page.$("nav");
-//     if (dashboard) {
-//       console.error("❌ Negative case gagal — user dengan kredensial salah bisa login!");
-//       return false;
-//     }
+  // Tunggu elemen error di dalam form login
+  await page.waitForFunction(() => {
+    const form = document.querySelector("form");
+    if (!form) return false;
+    const errorElements = form.querySelectorAll("p, span, div");
+    return Array.from(errorElements).some((el) =>
+      el.textContent?.toLowerCase().includes("invalid username or password")
+    );
+  }, { timeout: 7000 });
 
-//     console.warn("⚠️ Tidak ada respon pasti — periksa halaman login secara manual.");
-//     return true;
+  // Ambil teks error spesifik
+  const errorText = await page.evaluate(() => {
+    const form = document.querySelector("form");
+    if (!form) return "";
+    const errorElements = form.querySelectorAll("p, span, div");
+    const el = Array.from(errorElements).find((el) =>
+      el.textContent?.toLowerCase().includes("invalid username or password")
+    );
+    if (!el) return "";
 
-//   } catch (err) {
-//     console.error("❌ Gagal memverifikasi hasil login gagal:", err);
-//     return false;
-//   }
-// }
+    // Ambil hanya teks baris error
+    const rawText = el.textContent?.trim() || "";
+    // Potong supaya tidak ambil teks di luar error
+    const line = rawText.split("\n").find(t => t.toLowerCase().includes("invalid")) || rawText;
+    return line.trim();
+  });
+
+  if (errorText) {
+    console.log("✅ Pesan error login muncul:", errorText);
+    return true;
+  } else {
+    console.warn("⚠️ Tidak menemukan teks error di area form.");
+    return false;
+  }
+
+} catch (err) {
+  console.warn("⚠️ Tidak ada pesan error login muncul dalam 7 detik.");
+  return false;
+}
+
+}
